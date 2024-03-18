@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import styles from './Form.module.css';
-import axios from 'axios';
+import { useState } from "react";
+import styles from "./Form.module.css";
+import axios from "axios";
 import toast from 'react-hot-toast';
 
 const Form = () => {
-  const [email, setEmail] = useState(''); 
+  const [email, setEmail] = useState("");
 
   // Function to handle changes in the email input field
   const handleEmailChange = (e) => {
@@ -14,22 +14,28 @@ const Form = () => {
   // Function to handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const user = {email}
-      const res = await axios.post(`http://localhost:3000/api/subscribe`,user,{
-        headers:{
-          "Content-Type":"application/json"
-        },
-        // withCredentials:true
-      })
-      console.log(res.data)
-      if(res.data.success){
-        toast.success(res.data.message)
+    try {
+      const user = { email };
+      const res = await axios.post(
+        `http://localhost:3000/api/subscribe`,
+        user,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          // withCredentials:true
+        }
+      );
+      console.log(res.data);
+      if (res.data.success) {
+        toast.success(`subscribed successfully`) 
+        // alert(res.data.message);
       }
-    }catch(error){
-      console.log("Subscription error"+error)
-    }finally{
-      setEmail("")
+    } catch (error) {
+      toast.error(`Error while making API request`)
+      console.log("Subscription error" + error);
+    } finally {
+      setEmail("");
     }
   };
 
@@ -42,7 +48,9 @@ const Form = () => {
         onChange={handleEmailChange}
         className={styles.input}
       />
-      <button type="submit" className={styles.button}>Subscribe</button>
+      <button type="submit" className={styles.button}>
+        Subscribe
+      </button>
     </form>
   );
 };
